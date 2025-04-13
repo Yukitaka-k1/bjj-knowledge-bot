@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import time
+import re  # 正規表現を使用するためのライブラリを追加
 
 # 自動スクロール用のJavaScript関数
 def auto_scroll_to_bottom():
@@ -25,6 +26,14 @@ def auto_scroll_to_bottom():
     </script>
     """
     return js
+
+# Claude Sonnetの応答からthinkタグを削除する関数
+def remove_think_tags(text):
+    # <think>タグとその内容を削除
+    cleaned_text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
+    # 空の行が連続する場合、1行の空行にまとめる
+    cleaned_text = re.sub(r'\n\s*\n\s*\n', '\n\n', cleaned_text)
+    return cleaned_text.strip()
 
 # ソーシャルメニューを非表示にする設定
 st.set_page_config(
@@ -176,9 +185,11 @@ if prompt:
                 if response.get("conversation_id"):
                     st.session_state.conversation_id = response["conversation_id"]
                 
-                # 回答を表示
-                message_placeholder.markdown(response["answer"])
-                st.session_state.messages.append({"role": "assistant", "content": response["answer"]})
+                # <think>タグを削除して回答を表示
+                answer = response["answer"]
+                cleaned_answer = remove_think_tags(answer)
+                message_placeholder.markdown(cleaned_answer)
+                st.session_state.messages.append({"role": "assistant", "content": cleaned_answer})
             else:
                 # エラーメッセージを表示
                 message_placeholder.markdown(f"⚠️ {response.get('error', 'エラーが発生しました')}")
