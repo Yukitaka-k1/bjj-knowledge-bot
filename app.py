@@ -26,8 +26,27 @@ def auto_scroll_to_bottom():
     """
     return js
 
-# アプリのタイトルと説明
-st.set_page_config(page_title="戦国拳法AI師範", page_icon="🥋", layout="wide")
+# ソーシャルメニューを非表示にする設定
+st.set_page_config(
+    page_title="戦国拳法AI師範", 
+    page_icon="🥋", 
+    layout="wide",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': None
+    }
+)
+
+# カスタムCSS - Streamlitのデフォルトの余分な要素を非表示にする
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 st.title("戦国拳法AI師範")
 st.markdown("あなたの柔術に関する質問に経験豊富な師範がお答えします。質問を入力してください。")
 
@@ -46,11 +65,11 @@ with st.sidebar:
     st.markdown("- 片閂のコツを教えてください")
     st.markdown("- 初心者が最初に覚えるべき技は何ですか？")
     
-    # リセットボタン
+    # リセットボタン - experimental_rerunをrerunに修正
     if st.button("会話をリセット"):
         st.session_state.messages = []
         st.session_state.conversation_id = ""
-        st.experimental_rerun()
+        st.rerun()  # 修正: experimental_rerunの代わりにrerunを使用
 
 # チャット履歴の初期化
 if "messages" not in st.session_state:
@@ -187,6 +206,6 @@ with st.expander("使い方ガイド"):
     - 医学的なアドバイスや怪我の診断には使用しないでください
     """)
 
-# フッター
+# フッター (カスタムフッター - Streamlitのデフォルトフッターは非表示)
 st.markdown("---")
 st.markdown("© 2025 戦国拳法AI師範@Silent柔術 | Powered by Streamlit & Dify") 
