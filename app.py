@@ -37,7 +37,7 @@ def remove_think_tags(text):
 
 # ソーシャルメニューを非表示にする設定
 st.set_page_config(
-    page_title="戦国拳法AI師範", 
+    page_title="戦国寝技拳法AI師範", 
     page_icon="🥋", 
     layout="wide",
     menu_items={
@@ -56,7 +56,7 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-st.title("戦国拳法AI師範")
+st.title("戦国寝技拳法AI師範")
 st.markdown("あなたの柔術に関する質問に経験豊富な師範がお答えします。質問を入力してください。")
 
 # Dify APIの設定をsecretsから読み込み
@@ -65,7 +65,7 @@ api_endpoint = st.secrets.get("DIFY_API_ENDPOINT", "https://api.dify.ai/v1/chat-
 
 # サイドバーに情報を表示
 with st.sidebar:
-    st.markdown("## 戦国拳法AI師範")
+    st.markdown("## 戦国寝技拳法AI師範")
     st.markdown("このアプリはブラジリアン柔術の技術や知識について質問できるAIアシスタントです。")
     st.markdown("---")
     st.markdown("### 質問例:")
@@ -367,4 +367,4 @@ with st.expander("使い方ガイド"):
 
 # フッター (カスタムフッター - Streamlitのデフォルトフッターは非表示)
 st.markdown("---")
-st.markdown("© 2025 戦国拳法AI師範@Silent柔術 | Powered by Streamlit & Dify") 
+st.markdown("© 2025 戦国寝技拳法AI師範@Silent柔術 | Powered by Streamlit & Dify") 
